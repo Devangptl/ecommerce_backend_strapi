@@ -47,11 +47,33 @@
     "stock": {
       "type": "integer"
     },
-    "offers": {
+    "isNew": {
+      "type": "boolean",
+      "default": false
+    },
+    "thisMonth": {
+      "type": "boolean",
+      "default": false
+    },
+    "sub_categories": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::offer.offer",
-      "mappedBy": "products"
+      "target": "api::sub-category.sub-category",
+      "inversedBy": "products"
+    },
+    "originalPrice": {
+      "type": "integer"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "trending",
+        "thismonth"
+      ]
+    },
+    "quantity": {
+      "type": "integer",
+      "default": 2
     }
   }
 }

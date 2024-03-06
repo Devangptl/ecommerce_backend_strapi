@@ -800,53 +800,22 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'manyToMany',
       'api::product.product'
     >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
+    sub_categories: Attribute.Relation<
       'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiOfferOffer extends Schema.CollectionType {
-  collectionName: 'offers';
-  info: {
-    singularName: 'offer';
-    pluralName: 'offers';
-    displayName: 'offer';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Attribute.String;
-    products: Attribute.Relation<
-      'api::offer.offer',
       'manyToMany',
-      'api::product.product'
+      'api::sub-category.sub-category'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'api::offer.offer',
+      'api::category.category',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'api::offer.offer',
+      'api::category.category',
       'oneToOne',
       'admin::user'
     > &
@@ -878,11 +847,16 @@ export interface ApiProductProduct extends Schema.CollectionType {
     image: Attribute.Media;
     description: Attribute.Text;
     stock: Attribute.Integer;
-    offers: Attribute.Relation<
+    isNew: Attribute.Boolean & Attribute.DefaultTo<false>;
+    thisMonth: Attribute.Boolean & Attribute.DefaultTo<false>;
+    sub_categories: Attribute.Relation<
       'api::product.product',
       'manyToMany',
-      'api::offer.offer'
+      'api::sub-category.sub-category'
     >;
+    originalPrice: Attribute.Integer;
+    type: Attribute.Enumeration<['trending', 'thismonth']>;
+    quantity: Attribute.Integer & Attribute.DefaultTo<2>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -894,6 +868,47 @@ export interface ApiProductProduct extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSubCategorySubCategory extends Schema.CollectionType {
+  collectionName: 'sub_categories';
+  info: {
+    singularName: 'sub-category';
+    pluralName: 'sub-categories';
+    displayName: 'SubCategory';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    products: Attribute.Relation<
+      'api::sub-category.sub-category',
+      'manyToMany',
+      'api::product.product'
+    >;
+    categories: Attribute.Relation<
+      'api::sub-category.sub-category',
+      'manyToMany',
+      'api::category.category'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::sub-category.sub-category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::sub-category.sub-category',
       'oneToOne',
       'admin::user'
     > &
@@ -920,8 +935,8 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
       'api::category.category': ApiCategoryCategory;
-      'api::offer.offer': ApiOfferOffer;
       'api::product.product': ApiProductProduct;
+      'api::sub-category.sub-category': ApiSubCategorySubCategory;
     }
   }
 }
