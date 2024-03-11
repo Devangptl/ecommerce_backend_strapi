@@ -851,12 +851,12 @@ export interface ApiProductProduct extends Schema.CollectionType {
     thisMonth: Attribute.Boolean & Attribute.DefaultTo<false>;
     sub_categories: Attribute.Relation<
       'api::product.product',
-      'manyToMany',
+      'oneToMany',
       'api::sub-category.sub-category'
     >;
     originalPrice: Attribute.Integer;
     type: Attribute.Enumeration<['trending', 'thismonth']>;
-    quantity: Attribute.Integer & Attribute.DefaultTo<2>;
+    quantity: Attribute.Integer & Attribute.DefaultTo<1>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -888,15 +888,15 @@ export interface ApiSubCategorySubCategory extends Schema.CollectionType {
   };
   attributes: {
     title: Attribute.String;
-    products: Attribute.Relation<
-      'api::sub-category.sub-category',
-      'manyToMany',
-      'api::product.product'
-    >;
     categories: Attribute.Relation<
       'api::sub-category.sub-category',
       'manyToMany',
       'api::category.category'
+    >;
+    product: Attribute.Relation<
+      'api::sub-category.sub-category',
+      'manyToOne',
+      'api::product.product'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

@@ -57,9 +57,9 @@
     },
     "sub_categories": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "oneToMany",
       "target": "api::sub-category.sub-category",
-      "inversedBy": "products"
+      "mappedBy": "product"
     },
     "originalPrice": {
       "type": "integer"
@@ -73,7 +73,7 @@
     },
     "quantity": {
       "type": "integer",
-      "default": 2
+      "default": 1
     }
   }
 }
