@@ -74,6 +74,10 @@
     "quantity": {
       "type": "integer",
       "default": 1
+    },
+    "reviews": {
+      "type": "integer",
+      "default": 99
     }
   }
 }
